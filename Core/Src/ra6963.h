@@ -31,6 +31,18 @@
 #include "frt.h"
 
 
+#define x40_set_text_home_address		(0x40) 	// low high addr
+#define x41_set_text_area				(0x41) 	// col 0 (number of columns of text (8pix wide)
+#define x42_set_graphic_home_address	(0x42)	// low high addr
+#define x43_set_graphic_area			(0x43)	// col 0	(hres/8)
+
+#define x90_display_mode				(0x90)	// 0-blink 1-cursor 2-text 3-graph (0len cmd)
+#define x21_set_cursor_position			(0x21)	// x, y
+
+#define x24_set_address_pointer			(0x24)	//low high 2
+
+#define xc0_data_write_inc				(0xc0)	//low high 2
+
 #define lcd_delay_80ns() frt_wait_nops(2)
 
 //LD1_GPIO_Port->BSRR = LD1_Pin;
@@ -45,7 +57,7 @@
 #define LCD_CE_0() lcd_ce_GPIO_Port->BSRR = lcd_ce_Pin<<16
 
 #define LCD_CD_1() lcd_cd_GPIO_Port->BSRR = lcd_cd_Pin
-#define LCD_CD_0() lcd_cd_GPIO_Port->BSRR = lcd_cd_Pin
+#define LCD_CD_0() lcd_cd_GPIO_Port->BSRR = lcd_cd_Pin<<16
 
 #define LCD_RST_1() lcd_rst_GPIO_Port->BSRR = lcd_rst_Pin
 #define LCD_RST_0() lcd_rst_GPIO_Port->BSRR = lcd_rst_Pin<<16

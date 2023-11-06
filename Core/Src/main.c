@@ -127,7 +127,7 @@ int main(void)
 	  //frt_wait_ns3(delay);
 	  LD1_GPIO_Port->BSRR = LD1_Pin;
 	  frt_wait_nops(delay);
-	  lcd_set_data(c);
+//	  lcd_set_data(c);
 	  delay= lcd_get_data();
 	  LD1_GPIO_Port->BSRR = LD1_Pin<<16;
 	  c++;
