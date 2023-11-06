@@ -31,7 +31,7 @@
 #include "frt.h"
 
 
-#define delay_80ns() frt_wait_nops(2)
+#define lcd_delay_80ns() frt_wait_nops(2)
 
 //LD1_GPIO_Port->BSRR = LD1_Pin;
 // pindef
@@ -86,6 +86,36 @@
 #define LCD_DB5() ((lcd_d5_GPIO_Port->IDR & lcd_d5_Pin)!=0)
 #define LCD_DB6() ((lcd_d6_GPIO_Port->IDR & lcd_d6_Pin)!=0)
 #define LCD_DB7() ((lcd_d7_GPIO_Port->IDR & lcd_d7_Pin)!=0)
+
+
+// 0x80 -> 7  * 2 -> 14 -> 2^14 = 0x4000 = 0x80*0x80
+
+#define LCD_DB0_out()  lcd_d0_GPIO_Port->MODER |=  (uint32_t)(lcd_d0_Pin *  lcd_d0_Pin)
+#define LCD_DB0_in()   lcd_d0_GPIO_Port->MODER &= ~(uint32_t)(lcd_d0_Pin *  lcd_d0_Pin)
+
+#define LCD_DB1_out()  lcd_d1_GPIO_Port->MODER |=  (uint32_t)(lcd_d1_Pin *  lcd_d1_Pin)
+#define LCD_DB1_in()   lcd_d1_GPIO_Port->MODER &= ~(uint32_t)(lcd_d1_Pin *  lcd_d1_Pin)
+
+#define LCD_DB2_out()  lcd_d2_GPIO_Port->MODER |=  (uint32_t)(lcd_d2_Pin *  lcd_d2_Pin)
+#define LCD_DB2_in()   lcd_d2_GPIO_Port->MODER &= ~(uint32_t)(lcd_d2_Pin *  lcd_d2_Pin)
+
+#define LCD_DB3_out()  lcd_d3_GPIO_Port->MODER |=  (uint32_t)(lcd_d3_Pin *  lcd_d3_Pin)
+#define LCD_DB3_in()   lcd_d3_GPIO_Port->MODER &= ~(uint32_t)(lcd_d3_Pin *  lcd_d3_Pin)
+
+#define LCD_DB4_out()  lcd_d4_GPIO_Port->MODER |=  (uint32_t)(lcd_d4_Pin *  lcd_d4_Pin)
+#define LCD_DB4_in()   lcd_d4_GPIO_Port->MODER &= ~(uint32_t)(lcd_d4_Pin *  lcd_d4_Pin)
+
+#define LCD_DB5_out()  lcd_d5_GPIO_Port->MODER |=  (uint32_t)(lcd_d5_Pin *  lcd_d5_Pin)
+#define LCD_DB5_in()   lcd_d5_GPIO_Port->MODER &= ~(uint32_t)(lcd_d5_Pin *  lcd_d5_Pin)
+
+#define LCD_DB6_out()  lcd_d6_GPIO_Port->MODER |=  (uint32_t)(lcd_d6_Pin *  lcd_d6_Pin)
+#define LCD_DB6_in()   lcd_d6_GPIO_Port->MODER &= ~(uint32_t)(lcd_d6_Pin *  lcd_d6_Pin)
+
+#define LCD_DB7_out()  lcd_d7_GPIO_Port->MODER |=  (uint32_t)(lcd_d7_Pin *  lcd_d7_Pin)
+#define LCD_DB7_in()   lcd_d7_GPIO_Port->MODER &= ~(uint32_t)(lcd_d7_Pin *  lcd_d7_Pin)
+
+
+
 
 
 void lcd_init(void) __attribute__((optimize("O3")));

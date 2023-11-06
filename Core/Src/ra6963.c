@@ -1,17 +1,74 @@
 #include "ra6963.h"
 
-void lcd_write(uint8_t data, uint8_t iscmd){
-	if(iscmd)LCD_CD_1(); else LCD_CD_0();
-	LCD_CE_0();
+static uint8_t lcd_db_isin=0;
 
-	lcd_set_data(cmd);
+void ldc_db_in(){
+	if(lcd_db_isin) return;
+	lcd_db_isin = 1;
+	LCD_DB0_in();
+	LCD_DB1_in();
+	LCD_DB2_in();
+	LCD_DB3_in();
+	LCD_DB4_in();
+	LCD_DB5_in();
+	LCD_DB6_in();
+	LCD_DB7_in();
+}
+
+void ldc_db_out(){
+	if(!lcd_db_isin) return;
+	lcd_db_isin = 0;
+	LCD_DB0_out();
+	LCD_DB1_out();
+	LCD_DB2_out();
+	LCD_DB3_out();
+	LCD_DB4_out();
+	LCD_DB5_out();
+	LCD_DB6_out();
+	LCD_DB7_out();
+}
+
+void lcd_write(uint8_t data, uint8_t iscmd){
+	ldc_db_out();
+	if(iscmd)LCD_CD_1(); else LCD_CD_0(); //100ns cycle
+	LCD_CE_0(); // ce, rd/wr cycle =80ns
 	LCD_WR_0();
+	lcd_set_data(data);
 	lcd_delay_80ns();
 	LCD_WR_1();
 	LCD_CE_1();
 }
 
+uint8_t lcd_read(uint8_t isstatus){
+	uint8_t res;
+	ldc_db_in();
+	if(isstatus)LCD_CD_1(); else LCD_CD_0(); //100ns cycle
+	LCD_CE_0(); // ce, rd/wr cycle =80ns
+	LCD_RD_0();
+
+	lcd_delay_80ns();
+	lcd_delay_80ns();
+	res= lcd_get_data();
+	LCD_RD_1();
+	LCD_CE_1();
+	return res;
+}
+
+volatile uint8_t status = 0x5d;
 void lcd_init(void){
+	LCD_WR_1();
+	LCD_RD_1();
+	LCD_CE_1();
+	LCD_CD_1();
+	LCD_FS_1(); //6x8 font
+
+	HAL_Delay(100);
+	// release reset
+	LCD_RST_1();
+
+	HAL_Delay(20);
+	status = lcd_read(1);
+
 
 }
 

@@ -111,6 +111,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint32_t c=0;
+
+  lcd_init();
+
   while (1)
   {
     /* USER CODE END WHILE */
