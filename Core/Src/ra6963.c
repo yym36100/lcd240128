@@ -93,17 +93,32 @@ void lcd_init(void){
 	lcd_set_cmd(x40_set_text_home_address, 		0 , 0, 2);
 	lcd_set_cmd(x41_set_text_area, 				30, 0, 2);
 
-	lcd_set_cmd(x42_set_graphic_home_address, 	0 , 8, 2);
+	lcd_set_cmd(x42_set_graphic_home_address, 	0 , 0x80, 2);
 	lcd_set_cmd(x43_set_graphic_area, 			30, 0, 2);
 
-	lcd_set_cmd(x90_display_mode|8,		0, 0, 0); //blink curs text gra
+	lcd_set_cmd(x90_display_mode|8|4|2|1,		0, 0, 0); //blink curs text gra
+
+	lcd_set_cmd(x80_mode_set,					0, 0, 0); // or mode
+
+
 
 	lcd_set_cmd(x21_set_cursor_position, 		0, 0, 2);
 
-	lcd_set_cmd(x24_set_address_pointer, 0, 0, 2);
-	for(int i=0;i<240*128/8;i++){
-		lcd_set_cmd(xc0_data_write_inc, 0x2, 0, 1);
+	lcd_set_cmd(x24_set_address_pointer, 0, 0x80, 2);
+	for (int j = 0; j < 128; j++) {
+		for (int i = 0; i < 240 / 8; i++) {
+			lcd_set_cmd(xc0_data_write_inc, 0, 0, 1);
+		}
 	}
+
+	uint8_t c=0;
+		lcd_set_cmd(x24_set_address_pointer, 0, 0, 2);
+		for (int j = 0; j < 16; j++) {
+			for (int i = 0; i < 30; i++) {
+				lcd_set_cmd(xc0_data_write_inc, c++, 0, 1);
+			}
+		}
+
 
 }
 
