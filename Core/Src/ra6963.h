@@ -43,6 +43,8 @@
 
 #define xc0_data_write_inc				(0xc0)	//low high 2
 
+#define x80_mode_set					(0x80)  //0 or 1 xor 3 and | 0x08 ext cg
+
 #define lcd_delay_80ns() frt_wait_nops(2)
 
 //LD1_GPIO_Port->BSRR = LD1_Pin;
