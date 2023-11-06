@@ -57,6 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define lcd_wr_Pin GPIO_PIN_2
+#define lcd_wr_GPIO_Port GPIOE
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
 #define MCO_Pin GPIO_PIN_0
@@ -83,10 +85,18 @@ void Error_Handler(void);
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+#define lcd_d2_Pin GPIO_PIN_2
+#define lcd_d2_GPIO_Port GPIOG
+#define lcd_d1_Pin GPIO_PIN_3
+#define lcd_d1_GPIO_Port GPIOG
 #define USB_PowerSwitchOn_Pin GPIO_PIN_6
 #define USB_PowerSwitchOn_GPIO_Port GPIOG
 #define USB_OverCurrent_Pin GPIO_PIN_7
 #define USB_OverCurrent_GPIO_Port GPIOG
+#define lcd_fs_Pin GPIO_PIN_8
+#define lcd_fs_GPIO_Port GPIOC
+#define lcd_d7_Pin GPIO_PIN_9
+#define lcd_d7_GPIO_Port GPIOC
 #define USB_SOF_Pin GPIO_PIN_8
 #define USB_SOF_GPIO_Port GPIOA
 #define USB_VBUS_Pin GPIO_PIN_9
@@ -101,6 +111,24 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define lcd_d6_Pin GPIO_PIN_10
+#define lcd_d6_GPIO_Port GPIOC
+#define lcd_d5_Pin GPIO_PIN_11
+#define lcd_d5_GPIO_Port GPIOC
+#define lcd_d4_Pin GPIO_PIN_12
+#define lcd_d4_GPIO_Port GPIOC
+#define lcd_d3_Pin GPIO_PIN_2
+#define lcd_d3_GPIO_Port GPIOD
+#define lcd_rd_Pin GPIO_PIN_3
+#define lcd_rd_GPIO_Port GPIOD
+#define lcd_ce_Pin GPIO_PIN_4
+#define lcd_ce_GPIO_Port GPIOD
+#define lcd_cd_Pin GPIO_PIN_5
+#define lcd_cd_GPIO_Port GPIOD
+#define lcd_rst_Pin GPIO_PIN_6
+#define lcd_rst_GPIO_Port GPIOD
+#define lcd_d0_Pin GPIO_PIN_7
+#define lcd_d0_GPIO_Port GPIOD
 #define RMII_TX_EN_Pin GPIO_PIN_11
 #define RMII_TX_EN_GPIO_Port GPIOG
 #define RMII_TXD0_Pin GPIO_PIN_13

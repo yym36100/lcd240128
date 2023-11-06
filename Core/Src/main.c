@@ -24,6 +24,7 @@
 #include "stm32f7xx_ll_rcc.h"
 
 #include "frt.h"
+#include "ra6963.h"
 
 /* USER CODE END Includes */
 
@@ -120,7 +121,12 @@ int main(void)
 	  if(c&4)HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
 
 	  //HAL_Delay(100);
-	  frt_wait_ns(delay);
+	  //frt_wait_ns3(delay);
+	  LD1_GPIO_Port->BSRR = LD1_Pin;
+	  frt_wait_nops(delay);
+	  lcd_set_data(c);
+	  delay= lcd_get_data();
+	  LD1_GPIO_Port->BSRR = LD1_Pin<<16;
 	  c++;
   }
   /* USER CODE END 3 */
@@ -257,6 +263,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -265,10 +272,30 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(lcd_wr_GPIO_Port, lcd_wr_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, lcd_d2_Pin|lcd_d1_Pin|USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, lcd_fs_Pin|lcd_d7_Pin|lcd_d6_Pin|lcd_d5_Pin
+                          |lcd_d4_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, lcd_d3_Pin|lcd_cd_Pin|lcd_rst_Pin|lcd_d0_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, lcd_rd_Pin|lcd_ce_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : lcd_wr_Pin */
+  GPIO_InitStruct.Pin = lcd_wr_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+  HAL_GPIO_Init(lcd_wr_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USER_Btn_Pin */
   GPIO_InitStruct.Pin = USER_Btn_Pin;
@@ -307,6 +334,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
   HAL_GPIO_Init(RMII_TXD1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : lcd_d2_Pin lcd_d1_Pin */
+  GPIO_InitStruct.Pin = lcd_d2_Pin|lcd_d1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
   /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
   GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -319,6 +353,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : lcd_fs_Pin lcd_d7_Pin lcd_d6_Pin lcd_d5_Pin
+                           lcd_d4_Pin */
+  GPIO_InitStruct.Pin = lcd_fs_Pin|lcd_d7_Pin|lcd_d6_Pin|lcd_d5_Pin
+                          |lcd_d4_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : USB_SOF_Pin USB_ID_Pin USB_DM_Pin USB_DP_Pin */
   GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
@@ -333,6 +376,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_VBUS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : lcd_d3_Pin lcd_rd_Pin lcd_ce_Pin lcd_cd_Pin
+                           lcd_rst_Pin lcd_d0_Pin */
+  GPIO_InitStruct.Pin = lcd_d3_Pin|lcd_rd_Pin|lcd_ce_Pin|lcd_cd_Pin
+                          |lcd_rst_Pin|lcd_d0_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : RMII_TX_EN_Pin RMII_TXD0_Pin */
   GPIO_InitStruct.Pin = RMII_TX_EN_Pin|RMII_TXD0_Pin;
